@@ -16,21 +16,14 @@
 
 package com.cyanogenmod.settings.msm8660;
 
-import java.io.IOException;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.content.SharedPreferences;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.ListPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
-public class Sweep2Wake extends ListPreference implements OnPreferenceChangeListener {
-
-    public Sweep2Wake(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.setOnPreferenceChangeListener(this);
-    }
+public class Sweep2Wake implements OnPreferenceChangeListener {
 
     private static final String FILE = "/sys/android_touch/sweep2wake";
 
@@ -38,21 +31,18 @@ public class Sweep2Wake extends ListPreference implements OnPreferenceChangeList
         return Utils.fileExists(FILE);
     }
 
-    /**
-     * Restore sweep2wake setting from SharedPreferences. (Write to kernel.)
-     * @param context       The context to read the SharedPreferences from
-     */
     public static void restore(Context context) {
         if (!isSupported()) {
             return;
         }
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Utils.writeValue(FILE, sharedPrefs.getString(DisplaySettings.KEY_TOUCHKEY_S2W, "0"));
+        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_SWEEP2WAKE, "0"));
     }
 
+    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Utils.writeValue(FILE, (String) newValue);
+        Utils.writeValue(FILE, ((CheckBoxPreference)preference).isChecked() ? "0" : "1");
         return true;
     }
 
