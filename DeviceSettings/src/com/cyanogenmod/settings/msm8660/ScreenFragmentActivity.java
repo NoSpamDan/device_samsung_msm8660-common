@@ -16,16 +16,22 @@
 
 package com.cyanogenmod.settings.msm8660;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import com.cyanogenmod.settings.msm8660.R;
 
-public class Startup extends BroadcastReceiver {
+public class ScreenFragmentActivity extends PreferenceFragment {
+
+    private TouchscreenSensitivity mTouchscreenSensitivity;
 
     @Override
-    public void onReceive(final Context context, final Intent bootintent) {
-        SensorsFragmentActivity.restore(context);
-        Sweep2Wake.restore(context);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        addPreferencesFromResource(R.xml.screen_preferences);
+
+        mTouchscreenSensitivity = (TouchscreenSensitivity) findPreference(DisplaySettings.KEY_TOUCHSCREEN_SENSITIVITY);
+        mTouchscreenSensitivity.setEnabled(mTouchscreenSensitivity.isSupported());
     }
 
 }
