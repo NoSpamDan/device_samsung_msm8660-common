@@ -35,7 +35,6 @@ typedef struct ondemand_governor_settings {
     int sampling_rate;
     int scaling_max_freq;
     char *input_boost_freqs;
-    int boost_up_threshold;
     char *gpu_governor;
 } ondemand_power_profile;
 
@@ -54,7 +53,23 @@ static ondemand_power_profile ondemand_profiles[PROFILE_MAX] = {
         .sampling_rate = 50000,
         .scaling_max_freq = 1026000,
         .input_boost_freqs = "756000 540000",
-        .boost_up_threshold = 60,
+        .gpu_governor = "ondemand",
+    },
+    [PROFILE_BIAS_POWER] = {
+        .input_boost_on = 1,
+        .up_threshold = 90,
+        .io_is_busy = 1,
+        .sampling_down_factor = 2,
+        .down_differential = 10,
+        .up_threshold_multi_core = 70,
+        .down_differential_multi_core = 3,
+        .optimal_freq = 918000,
+        .sync_freq = 1026000,
+        .up_threshold_any_cpu_load = 80,
+        .sampling_rate = 50000,
+        .scaling_max_freq = 1026000,
+        .scaling_min_freq = 192000,
+        .input_boost_freqs = "972000 864000",
         .gpu_governor = "ondemand",
     },
     [PROFILE_BALANCED] = {
@@ -70,8 +85,25 @@ static ondemand_power_profile ondemand_profiles[PROFILE_MAX] = {
         .up_threshold_any_cpu_load = 80,
         .sampling_rate = 50000,
         .scaling_max_freq = 1512000,
+        .scaling_min_freq = 384000,
         .input_boost_freqs = "1242000 1026000",
-        .boost_up_threshold = 60,
+        .gpu_governor = "ondemand",
+    },
+    [PROFILE_BIAS_PERFORMANCE] = {
+        .input_boost_on = 1,
+        .up_threshold = 90,
+        .io_is_busy = 1,
+        .sampling_down_factor = 2,
+        .down_differential = 10,
+        .up_threshold_multi_core = 70,
+        .down_differential_multi_core = 3,
+        .optimal_freq = 918000,
+        .sync_freq = 1026000,
+        .up_threshold_any_cpu_load = 80,
+        .sampling_rate = 50000,
+        .scaling_max_freq = 1512000,
+        .scaling_min_freq = 756000,
+        .input_boost_freqs = "1242000 1026000",
         .gpu_governor = "ondemand",
     },
     [PROFILE_HIGH_PERFORMANCE] = {
@@ -88,7 +120,6 @@ static ondemand_power_profile ondemand_profiles[PROFILE_MAX] = {
         .sampling_rate = 50000,
         .scaling_max_freq = 1512000,
         .input_boost_freqs = "1512000 1512000",
-        .boost_up_threshold = 60,
         .gpu_governor = "performance",
     },
 };
