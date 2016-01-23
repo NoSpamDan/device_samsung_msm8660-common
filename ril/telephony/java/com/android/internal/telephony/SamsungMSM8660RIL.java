@@ -41,7 +41,8 @@ import com.android.internal.telephony.uicc.IccCardStatus;
  * {@hide}
  */
 public class SamsungMSM8660RIL extends RIL implements CommandsInterface {
-
+    
+    private boolean setPreferredNetworkTypeSeen = false;
     private AudioManager mAudioManager;
 
     public SamsungMSM8660RIL(Context context, int networkModes, int cdmaSubscription) {
