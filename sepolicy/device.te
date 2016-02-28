@@ -4,3 +4,7 @@ type oncrpc_device, dev_type;
 type panel_dev, dev_type;
 type power_dev, dev_type;
 type rfkill_device, dev_type;
+type boot_block_device, dev_type;
+type recovery_block_device, dev_type;
+type cache_block_device, dev_type;
+type userdata_block_device, dev_type;
